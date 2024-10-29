@@ -224,7 +224,7 @@ namespace weatherd.datasources.pakbus
 
             _lastClockSetTime = DateTime.UtcNow;
             TimeSpan deviation = DateTime.Now - r.Time.ToTime();
-            Log.Information(
+            Log.Verbose(
                 "Datalogger clock is {Time}, which differs from server time by {Deviation} seconds",
                 r.Time.ToTime(), deviation.TotalSeconds);
             _lastClockSetTime = DateTime.UtcNow;
@@ -373,16 +373,19 @@ namespace weatherd.datasources.pakbus
 
         private async Task<bool> SetClock(uint from, uint to, DateTime time)
         {
-            DateTime currentTime = DateTime.UtcNow;
-            Log.Information("Setting clock to {Time}", currentTime);
-            PakbusXTDClockResponse resp = await SetTimeTransaction(from, to, time);
+            Log.Information("Setting clock to {Time}", time);
+            
+            // Quirk: Seems like the dataloggers actually set the time to -1H relative to this, so...
+            DateTime relative = time + TimeSpan.FromHours(1);
+            
+            PakbusXTDClockResponse resp = await SetTimeTransaction(from, to, relative);
             if (resp.ResponseCode != PakbusXTDResponseCode.ClockChanged)
             {
                 Log.Warning("Could not set clock:  Response code was {RespCode}", resp.ResponseCode);
                 return false;
             }
 
-            Log.Verbose("Successfully set clock to {Time}:  {RespCode}", currentTime, resp.ResponseCode);
+            Log.Verbose("Successfully set clock to {Time}:  {RespCode}", time, resp.ResponseCode);
             return true;
         }
 

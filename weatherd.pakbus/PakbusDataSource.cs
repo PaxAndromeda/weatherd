@@ -102,7 +102,9 @@ namespace weatherd.datasources.pakbus
 
                 BatteryVoltage        = new ElectricPotentialDc(data.Get<float>("BattV"), ElectricPotentialDcUnit.VoltDc),
                 BatteryChargeCurrent  = new ElectricCurrent(data.Get<float>("ChgI"), ElectricCurrentUnit.Milliampere),
-                BatteryDrainCurrent   = new ElectricCurrent(data.Get<float>("BattI"), ElectricCurrentUnit.Milliampere)
+                BatteryDrainCurrent   = new ElectricCurrent(data.Get<float>("BattI"), ElectricCurrentUnit.Milliampere),
+                
+                EnclosureTemperature   = new Temperature(data.Get<float>("PTemp_C"), TemperatureUnit.DegreeCelsius)
             };
 
             Log.Verbose("Invoking SampleAvailable..");

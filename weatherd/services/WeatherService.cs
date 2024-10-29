@@ -139,7 +139,6 @@ namespace weatherd.services
                 catch (Exception ex)
                 {
                     Log.Error(ex, "Failed to send CWOP data stream");
-                    // ignore;  CWOP is an auxiliary data stream.
                 }
             }
 

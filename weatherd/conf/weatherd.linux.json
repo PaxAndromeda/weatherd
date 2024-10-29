@@ -135,6 +135,14 @@
           "Name": "enclosure_temperature",
           "Property": "EnclosureTemperature",
           "Unit": "DegreesCelsius"
+        },
+        {
+          "Name": "weather_last_15_minutes",
+          "Property": "WeatherLast15Minutes"
+        },
+        {
+          "Name": "weather_last_hour",
+          "Property": "WeatherLastHour"
         }
       ]
     },

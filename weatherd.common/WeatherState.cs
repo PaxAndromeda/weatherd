@@ -625,14 +625,18 @@ namespace weatherd
                 WindGust30Minute = AOrB(a, b, x => x.WindGust30Minute),
                 WindGust1Hour = AOrB(a, b, x => x.WindGust1Hour),
                 BatteryVoltage = AOrB(a, b, x => x.BatteryVoltage),
-                EnclosureTemperature = AOrB(a, b, x => x.Temperature),
+                EnclosureTemperature = AOrB(a, b, x => x.EnclosureTemperature),
                 Visibility = AOrB(a, b, x => x.Visibility),
                 Weather = a.Weather ?? b.Weather,
+                WeatherLast15Minutes = a.WeatherLast15Minutes ?? b.WeatherLast15Minutes,
+                WeatherLastHour = a.WeatherLastHour ?? b.WeatherLastHour,
                 WaterIntensity = AOrB(a, b, x => x.WaterIntensity),
                 Dewpoint = AOrB(a, b, x => x.Dewpoint),
                 RelativeHumidity = AOrB(a, b, x => x.RelativeHumidity),
                 BatteryChargeCurrent = AOrB(a, b, x => x.BatteryChargeCurrent),
                 BatteryDrainCurrent = AOrB(a, b, x => x.BatteryDrainCurrent)
+                BatteryDrainCurrent = AOrB(a, b, x => x.BatteryDrainCurrent),
+                OpticalRainfallSinceMidnight = AOrB(a, b, x => x.OpticalRainfallSinceMidnight)
             };
         }
     }

@@ -82,9 +82,11 @@ namespace weatherd.services
                 .Timestamp(DateTime.UtcNow, WritePrecision.S);
 
             if (state.Weather != null)
-            {
                 point = point.Tag("Weather", state.Weather.ToString());
-            }
+            if (state.WeatherLast15Minutes != null)
+                point = point.Tag("Weather15", state.WeatherLast15Minutes.ToString());
+            if (state.WeatherLastHour != null)
+                point = point.Tag("Weather60", state.WeatherLastHour.ToString());
 
             foreach (InfluxRecordDefinition defn in _recordDefinitions)
             {
