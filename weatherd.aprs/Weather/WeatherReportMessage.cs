@@ -144,7 +144,13 @@ namespace weatherd.aprs.weather
 
             // If the humidity is 100% or supersaturated, it is reported as h00.  Otherwise, h##, where ## is the percent value.
             if (Conditions.Humidity.HasValue)
-                packetBuilder.Append(Conditions.Humidity.Value.Percent >= 100 ? "h00" : $"h{Conditions.Humidity.Value.Percent:00}");
+            {
+                // ≥99.5% because $"h{rh:00}" rounds to the nearest whole number
+                packetBuilder.Append(Conditions.Humidity.Value.Percent >= 99.5
+                    ? "h00" 
+                    : $"h{Conditions.Humidity.Value.Percent:00}");
+            }
+
             // Pressure is reported in tenths of a hectopascal.
             if (Conditions.Pressure.HasValue)
                 packetBuilder.Append($"b{Conditions.Pressure.Value.Hectopascals * 10:00000}");
