@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using weatherd.datasources.pakbus;
 using weatherd.io;
 using Xunit;
@@ -40,6 +41,27 @@ namespace weatherd.tests.datasources.Pakbus
             result.Should().NotBeNull();
             result.Seconds.Should().Be(expectedNsec.Seconds);
             result.Nanoseconds.Should().Be(expectedNsec.Nanoseconds);
+        }
+        
+        [Theory]
+        [InlineData(0x00000000, 0.0f)]
+        [InlineData(0xBD9C6200, 0.0f)]
+        [InlineData(0x3FCBC6A7, 0.4f)]
+        [InlineData(0x44CDB31C, 12.8f)]
+        [InlineData(0x48F3FF61, 244f)]
+        public void ReadFP4_WithValidByteSequence_ShouldReturnExpectedValue(uint data, float expected)
+        {
+            // Arrange
+            byte[] dataBytes = BitConverter.GetBytes(data);
+
+            // Little endian because BitConverter likes little endian.
+            PakbusBinaryStream bs = new PakbusBinaryStream(dataBytes, Endianness.Little);
+            
+            // Act
+            float result = bs.ReadFP4();
+
+            // Assert
+            result.Should().BeApproximately(expected, 0.1f);
         }
     }
 }

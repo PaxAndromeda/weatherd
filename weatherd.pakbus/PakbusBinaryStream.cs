@@ -75,8 +75,7 @@ namespace weatherd.datasources.pakbus
             uint bits = ReadUInt32();
 
             int sign = bits >> 31 == 0 ? 1 : -1;
-            int expSign = (bits & 0x40000000) == 0 ? -1 : 1;
-            int exponent = (sbyte)((bits & 0x3F000000) >> 24) * expSign;
+            int exponent = (sbyte)((bits & 0x7F000000) >> 24) - 64;
             uint mantissa = bits & 0xFFFFFF;
             float fractional = mantissa / 16777216f;
 
